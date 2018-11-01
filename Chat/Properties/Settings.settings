@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Chat.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Window_OverlayMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Window_TaskBar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Height" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="Width" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="Top" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Left" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="sShowInTaskbar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Скрыть из панели задач</Value>
+    </Setting>
+    <Setting Name="sMouseTransparenty" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Отключить кликабельность</Value>
+    </Setting>
+    <Setting Name="sChangeSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Отключить изменение размера</Value>
+    </Setting>
+    <Setting Name="sResizeMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CanResizeWithGrip</Value>
+    </Setting>
+    <Setting Name="FirstInit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Visible</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

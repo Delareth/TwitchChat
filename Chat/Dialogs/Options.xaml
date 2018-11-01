@@ -1,0 +1,38 @@
+﻿<Window 
+	x:Class="Chat.Dialogs.Options"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:Chat.Dialogs"
+	Title="PandaChat | Options" 
+	Height="400"
+  Width="300"
+	WindowStartupLocation="CenterScreen"
+	Style="{StaticResource OptionsDesignWindow}"
+>
+
+	<Grid>
+		<DockPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition/>
+					<ColumnDefinition  />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Text="Test #1" Grid.Column="0" />
+				<TextBox Grid.Column="1" Margin="1" />
+			</Grid>
+
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition/>
+					<ColumnDefinition  />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Text="Test #2" Grid.Column="0" />
+				<TextBox Grid.Column="1" Margin="1" />
+			</Grid>
+		</DockPanel>
+	</Grid>
+</Window>

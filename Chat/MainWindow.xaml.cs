@@ -43,8 +43,8 @@ namespace Chat
 
 		private void WebControl_DocumentReady(object sender, UrlEventArgs e)
 		{
-			string sCommand = "loadInfo('" + appId + "', '" + channelName + "')";
-			webControl.ExecuteJavascript(sCommand);
+			MainController.InitFollowersCount();
+			ExecuteJS("addMessage('PandaChat', 'Панда успешно подключилась к " + channelName + "')");
 		}
 
 		#region TestButtons

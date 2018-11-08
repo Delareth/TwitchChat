@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
+using RestSharp;
 using System;
 using System.Collections.Immutable;
 
@@ -26,6 +27,18 @@ namespace Chat
 
 			client.Connect("irc.twitch.tv", 6667, false, regInfo);
 			client.RawMessageReceived += RawMessageReceived;
+			client.Disconnected += Disconnected;
+			client.Error += TwitchError;
+		}
+
+		private static void Disconnected(object sender, EventArgs e)
+		{
+			Console.WriteLine("Disconnected: " + e.ToString());
+		}
+
+		private static void TwitchError(object sender, EventArgs e)
+		{
+			Console.WriteLine("TwitchError: " + e.ToString());
 		}
 
 		public static bool CheckConnect()
@@ -73,7 +86,7 @@ namespace Chat
 					string searchIndex = "#" + MainWindow.channelName + " :";
 					int index = e.RawContent.IndexOf(searchIndex);
 					string gettedText = e.RawContent.Remove(0, index + searchIndex.Length);
-					//Console.WriteLine("NEW PARSING: " + sNick + ": " + gettedText);
+					Console.WriteLine("ChatMessage: " + sNick + ": " + gettedText);
 
 					MainWindow.RunInUiThread(() =>
 					{
@@ -188,6 +201,50 @@ namespace Chat
 			{
 				Console.WriteLine("Successfully connected to:");
 				Console.WriteLine(data);
+			});
+		}
+
+		public static void InitFollowersCount()
+		{
+			Timers.Create("FollowerCount", 13000, true, () =>
+			{
+				var client = new RestClient
+				{
+					BaseUrl = new Uri("https://api.twitch.tv/kraken/streams/")
+				};
+
+				var request = new RestRequest
+				{
+					Method = Method.GET,
+					Resource = MainWindow.channelName
+				};
+				request.AddHeader("Client-ID", MainWindow.appId);
+				//request.AddHeader("accept", "application/vnd.twitchtv.v5+json");
+
+				request.RequestFormat = DataFormat.Json;
+				IRestResponse response = client.Execute(request);
+				dynamic results = JsonConvert.DeserializeObject<dynamic>(response.Content);
+
+				string sIsOnline = "online";
+				string sViewers = "0";
+				string sFollowers = "0";
+				if (results["stream"] == null)
+				{
+					Console.WriteLine("Stream currently offline");
+					sIsOnline = "offline";
+				}
+				else
+				{
+					sViewers = results["stream"]["viewers"];
+					sFollowers = results["stream"]["channel"]["followers"];
+				}
+
+				Console.WriteLine("setStreamInfo({0}, {1}, {2})", sIsOnline, sViewers, sFollowers);
+
+				MainWindow.RunInUiThread(() =>
+				{
+					MainWindow.ExecuteJS("setStreamInfo('" + sIsOnline + "', '" + sViewers + "', '" + sFollowers + "')");
+				});
 			});
 		}
 	}

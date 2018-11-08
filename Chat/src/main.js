@@ -1,9 +1,4 @@
 var currentStreamState = "offline";
-var info = {
-	id: "",
-	channel: ""
-};
-
 var hideTimer = null;
 
 function addMessage (nick, mess) 
@@ -100,15 +95,6 @@ function onLoad()
   reloadSize();
 }
 
-function loadInfo(id, channel)
-{
-  info.id = id;
-  info.channel = channel;
-  checkStreamInfo();
-
-  addMessage("PandaChat", "Панда успешно подключилась к " + channel);
-}
-
 function reloadSize()
 {
   // для правильного отображения нужно менять
@@ -118,36 +104,10 @@ function reloadSize()
   $(".chat_box")[0].style.height = window.outerHeight - 22 + "px";
 }
 
-function checkStreamInfo()
+function setStreamInfo(isOnline, viewers, followers)
 {
-  getStreamInfo();
-
-  // рекурсивный setTimeout потому что setInterval прекращает работу спустя часа 2 работы чата
-  var timer = setTimeout(function tick() {
-    getStreamInfo();
-    timer = setTimeout(tick, 13000);
-  }, 13000);
-}
-
-function getStreamInfo() 
-{
-  $.ajax({
-    type: 'GET',
-    url: 'https://api.twitch.tv/kraken/streams/' + info.channel,
-    headers: {
-      'Client-ID': info.id
-    },
-    // dataType: json,
-    success: function(data) {
-      setStreamInfo(data);
-    }
-   });
-}
-
-function setStreamInfo(data)
-{
-  // console.log(data);
-  if(data.stream === null)
+	// console.log(data);
+	if (isOnline === "offline")
   {
     if(currentStreamState !== "offline")
     {
@@ -192,7 +152,7 @@ function setStreamInfo(data)
       });
 
       setTimeout(function() {
-        $(".footer_text").text(data.stream.viewers + " / " + data.stream.channel.followers);
+				$(".footer_text").text(viewers + " / " + followers);
 
         $(".footer_text").animate({
           top: "0px"
@@ -204,7 +164,7 @@ function setStreamInfo(data)
     }
     else
     { 
-      $(".footer_text").text(data.stream.viewers + " / " + data.stream.channel.followers);
+			$(".footer_text").text(viewers + " / " + followers);
     }
   }
 }
